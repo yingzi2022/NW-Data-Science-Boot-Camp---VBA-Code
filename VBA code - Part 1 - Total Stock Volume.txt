@@ -1,0 +1,53 @@
+'Part 1: Subtotal of stock volume by ticker
+
+Sub Stock_Analysis_Part1()
+  
+  ' Set an initial variable for holding the ticker name
+  Dim Ticker_Name As String
+
+  ' Set an initial variable for holding the total stock volume per ticker
+  Dim STKVOL_Total As Double
+  STKVOL_Total = 0
+
+  'Determine the Last Row
+  Lastrow = Cells(Rows.Count, 1).End(xlUp).Row
+  
+  ' Keep track of the location for each ticker brand in the summary table
+  Dim Summary_Table_Row As Integer
+  Summary_Table_Row = 2
+
+  ' Loop through all stock purchases
+  For i = 2 To Lastrow
+
+    ' Check if we are still within the same ticker, if it is not...
+    If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+
+      ' Set the Ticker name
+      Ticker_Name = Cells(i, 1).Value
+
+      ' Add to the Stock Volume Total
+      STKVOL_Total = STKVOL_Total + Cells(i, 6).Value
+
+      ' Print the Ticker Name in the Summary Table
+      Range("J" & Summary_Table_Row).Value = Ticker_Name
+
+      ' Print the Stock Amount to the Summary Table
+      Range("M" & Summary_Table_Row).Value = STKVOL_Total
+
+      ' Add one to the summary table row
+      Summary_Table_Row = Summary_Table_Row + 1
+      
+      ' Reset the Stock Volume Total
+      STKVOL_Total = 0
+
+    ' If the cell immediately following a row is the same ticker...
+    Else
+
+      ' Add to the stock volume Total
+      STKVOL_Total = STKVOL_Total + Cells(i, 6).Value
+
+    End If
+
+  Next i
+
+End Sub
